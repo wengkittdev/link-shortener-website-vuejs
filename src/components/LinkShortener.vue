@@ -15,16 +15,20 @@ async function shortenUrl() {
     return
   }
 
-  isLoading.value = true
-  const response = await axios.post(
-    `https://api.tinyurl.com/create?api_token=${import.meta.env.VITE_TINY_URL_API_KEY}`,
-    {
-      url: sourceUrl.value
-    }
-  )
-
-  targetUrl.value = response.data.data.tiny_url
-  isLoading.value = false
+  try {
+    isLoading.value = true
+    const response = await axios.post(
+      `https://api.tinyurl.com/create?api_token=${import.meta.env.VITE_TINY_URL_API_KEY}`,
+      {
+        url: sourceUrl.value
+      }
+    )
+    targetUrl.value = response.data.data.tiny_url
+  } catch (error) {
+    console.error(error)
+  } finally {
+    isLoading.value = false
+  }
 }
 
 function clearSourceUrl() {
