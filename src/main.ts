@@ -6,5 +6,7 @@ import { faArrowRight, faCopy, faSpinner } from '@fortawesome/free-solid-svg-ico
 
 import './assets/global.css'
 
-library.add([faArrowRight, faCopy, faSpinner])
+library.add(faArrowRight)
+library.add(faCopy)
+library.add(faSpinner)
 createApp(App).component('font-awesome-icon', FontAwesomeIcon).mount('#app')
