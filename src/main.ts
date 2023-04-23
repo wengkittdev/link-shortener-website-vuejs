@@ -2,9 +2,9 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faArrowRight, faCopy } from '@fortawesome/free-solid-svg-icons'
+import { faArrowRight, faCopy, faSpinner } from '@fortawesome/free-solid-svg-icons'
 
 import './assets/global.css'
 
-library.add([faArrowRight, faCopy])
+library.add([faArrowRight, faCopy, faSpinner])
 createApp(App).component('font-awesome-icon', FontAwesomeIcon).mount('#app')
