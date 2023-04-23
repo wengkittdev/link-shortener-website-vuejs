@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import axios from 'axios'
+import useClipboard from 'vue-clipboard3'
 
 const sourceUrl = ref('')
 const targetUrl = ref('')
 const isLoading = ref(false)
 const isInvalidUrl = ref(false)
+
+const { toClipboard } = useClipboard()
 
 async function shortenUrl() {
   if (isValidUrl()) {
@@ -24,6 +27,11 @@ async function shortenUrl() {
   isLoading.value = false
 }
 
+function clearSourceUrl() {
+  sourceUrl.value = ''
+  targetUrl.value = ''
+}
+
 function isValidUrl() {
   try {
     new URL(sourceUrl.value)
@@ -34,8 +42,8 @@ function isValidUrl() {
   return isInvalidUrl.value
 }
 
-function clearSourceUrl() {
-  sourceUrl.value = ''
+async function copyTargetUrl() {
+  await toClipboard(targetUrl.value)
 }
 </script>
 
@@ -64,7 +72,9 @@ function clearSourceUrl() {
             placeholder="Target Url"
             :disabled="true"
           />
-          <span class="pl-1"><font-awesome-icon :icon="['fas', 'copy']" /></span>
+          <span class="pl-1 cursor-copy" v-if="targetUrl" @click="copyTargetUrl"
+            ><font-awesome-icon :icon="['fas', 'copy']"
+          /></span>
         </div>
       </div>
 
@@ -72,7 +82,7 @@ function clearSourceUrl() {
         <button
           @click="shortenUrl"
           :disabled="isLoading"
-          class="rounded-lg bg-violet-950 text-white p-2 w-[90px]"
+          class="rounded-lg bg-violet-950 text-white p-2"
         >
           Shorten<span class="ml-2" v-if="isLoading"
             ><font-awesome-icon :icon="['fas', 'spinner']" spin
@@ -81,7 +91,8 @@ function clearSourceUrl() {
         <button
           @click="clearSourceUrl"
           v-if="sourceUrl"
-          class="rounded-lg bg-violet-950 text-white p-2 w-[90px]"
+          :disabled="isLoading"
+          class="rounded-lg bg-violet-950 text-white p-2"
         >
           Clear
         </button>
